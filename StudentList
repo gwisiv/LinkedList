@@ -1,0 +1,234 @@
+import java.util.LinkedList;
+import java.util.Scanner;
+
+class Student {
+    String name;
+    int age;
+    Integer mathGrade;
+    Integer scienceGrade;
+    Integer mapehGrade;
+    Integer tleGrade;
+    Integer filipinoGrade;
+    Integer apGrade;
+}
+
+public class StudentRecords {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        LinkedList<Student> studentList = new LinkedList<>();
+
+        System.out.println("Good day, Teachers! Welcome to the Student Record List.");
+
+        while (true) {
+            System.out.println("\nReminder: Here are the guides for using the operations.");
+            System.out.println("1. PushBack: Use this if you want to put the student at the back of the list.");
+            System.out.println("2. PushFront: Use this if you want to put the student at the front of the list.");
+            System.out.println("3. PopBack: Use this if you want to remove the last student added through PushBack.");
+            System.out.println("4. PopFront: Use this if you want to remove the first student added through PushFront.");
+            System.out.println("5. Display Records: Use this if you want to see the current list you made.");
+            System.out.println("6. Exit: Use this if you are already satisfied with the record list.");
+
+            System.out.print("Type YES if you want to edit the list, or NO to exit: ");
+            String startEditing = scanner.nextLine();
+
+            if (startEditing.equalsIgnoreCase("NO")) {
+                System.out.println("THANK YOU FOR USING THE STUDENT RECORD LIST!");
+                break;
+            } else if (!startEditing.equalsIgnoreCase("YES")) {
+                System.out.println("Invalid input. Please enter YES or NO.");
+                continue;
+            }
+
+            int choice;
+            do {
+                System.out.println("\nOperations:");
+                System.out.println("1. PushBack");
+                System.out.println("2. PushFront");
+                System.out.println("3. PopBack");
+                System.out.println("4. PopFront");
+                System.out.println("5. Display Records");
+                System.out.println("6. Exit");
+
+                System.out.print("Enter your choice: ");
+                try {
+                    choice = Integer.parseInt(scanner.nextLine());
+                } catch (NumberFormatException e) {
+                    System.out.println("Invalid input. Please enter a valid operation number.");
+                    continue;
+                }
+
+                switch (choice) {
+                    case 1:
+                        pushBack(studentList, scanner);
+                        break;
+                    case 2:
+                        pushFront(studentList, scanner);
+                        break;
+                    case 3:
+                        popBack(studentList);
+                        break;
+                    case 4:
+                        popFront(studentList);
+                        break;
+                    case 5:
+                        displayRecords(studentList);
+                        break;
+                    case 6:
+                        System.out.println("THANK YOU FOR USING THE STUDENT RECORD LIST!");
+                        return;
+                    default:
+                        System.out.println("Invalid choice. Please enter a valid operation number.");
+                }
+            } while (true);
+        }
+    }
+
+    private static void pushBack(LinkedList<Student> studentList, Scanner scanner) {
+        Student student = new Student();
+        System.out.println("\nType the details of the student you want to PushBack.");
+
+        do {
+            System.out.print("Name: ");
+            student.name = scanner.nextLine().trim();
+            if (isInvalidName(student.name)) {
+                System.out.println("Invalid input. Please enter a valid name.");
+            } else {
+                break;
+            }
+        } while (true);
+
+        do {
+            System.out.print("Age: ");
+            String ageInput = scanner.nextLine().trim();
+            if (!ageInput.isEmpty() && ageInput.matches("\\d+")) {
+                student.age = Integer.parseInt(ageInput);
+                if (isInvalidAge(student.age)) {
+                    System.out.println("Invalid input. Please enter a valid number for age.");
+                } else {
+                    break;
+                }
+            } else {
+                System.out.println("Invalid input. Please enter a valid number for age.");
+            }
+        } while (true);
+
+        student.mathGrade = getValidGrade("Math", scanner);
+        student.scienceGrade = getValidGrade("Science", scanner);
+        student.mapehGrade = getValidGrade("MAPEH", scanner);
+        student.tleGrade = getValidGrade("TLE", scanner);
+        student.filipinoGrade = getValidGrade("Filipino", scanner);
+        student.apGrade = getValidGrade("AP", scanner);
+
+        studentList.add(student);
+        System.out.println("\nYou have completely edited this student's grades.");
+    }
+
+    private static void pushFront(LinkedList<Student> studentList, Scanner scanner) {
+        Student student = new Student();
+        System.out.println("\nType the details of the student you want to PushFront.");
+
+        do {
+            System.out.print("Name: ");
+            student.name = scanner.nextLine().trim();
+            if (isInvalidName(student.name)) {
+                System.out.println("Invalid input. Please enter a valid name.");
+            } else {
+                break;
+            }
+        } while (true);
+
+        do {
+            System.out.print("Age: ");
+            String ageInput = scanner.nextLine().trim();
+            if (!ageInput.isEmpty() && ageInput.matches("\\d+")) {
+                student.age = Integer.parseInt(ageInput);
+                if (isInvalidAge(student.age)) {
+                    System.out.println("Invalid input. Please enter a valid number for age.");
+                } else {
+                    break;
+                }
+            } else {
+                System.out.println("Invalid input. Please enter a valid number for age.");
+            }
+        } while (true);
+
+        student.mathGrade = getValidGrade("Math", scanner);
+        student.scienceGrade = getValidGrade("Science", scanner);
+        student.mapehGrade = getValidGrade("MAPEH", scanner);
+        student.tleGrade = getValidGrade("TLE", scanner);
+        student.filipinoGrade = getValidGrade("Filipino", scanner);
+        student.apGrade = getValidGrade("AP", scanner);
+
+        studentList.addFirst(student);
+        System.out.println("\nYou have completely edited this student's grades.");
+    }
+
+    private static void popBack(LinkedList<Student> studentList) {
+        if (!studentList.isEmpty()) {
+            Student removedStudent = studentList.removeLast();
+            System.out.println("\nYou PopBack " + removedStudent.name + ".");
+        } else {
+            System.out.println("\nThe list is empty. Cannot perform PopBack.");
+        }
+    }
+
+    private static void popFront(LinkedList<Student> studentList) {
+        if (!studentList.isEmpty()) {
+            Student removedStudent = studentList.removeFirst();
+            System.out.println("\nYou PopFront " + removedStudent.name + ".");
+        } else {
+            System.out.println("\nThe list is empty. Cannot perform PopFront.");
+        }
+    }
+
+    private static void displayRecords(LinkedList<Student> studentList) {
+        System.out.println("\nStudent Records:");
+        if (!studentList.isEmpty()) {
+            for (Student student : studentList) {
+                displayStudentInfo(student);
+            }
+        } else {
+            System.out.println("isEmpty");
+        }
+    }
+
+    private static void displayStudentInfo(Student student) {
+        System.out.println("\nName: " + student.name);
+        System.out.println("Age: " + student.age);
+        System.out.println("Grade for Math: " + student.mathGrade);
+        System.out.println("Grade for Science: " + student.scienceGrade);
+        System.out.println("Grade for MAPEH: " + student.mapehGrade);
+        System.out.println("Grade for TLE: " + student.tleGrade);
+        System.out.println("Grade for Filipino: " + student.filipinoGrade);
+        System.out.println("Grade for AP: " + student.apGrade);
+    }
+
+    private static int getValidGrade(String subject, Scanner scanner) {
+        while (true) {
+            System.out.print("Enter Grade for " + subject + ": ");
+            String input = scanner.nextLine().trim();
+            if (!input.isEmpty() && input.matches("\\d+")) {
+                int grade = Integer.parseInt(input);
+                if (isValidGrade(grade)) {
+                    return grade;
+                } else {
+                    System.out.println("Invalid input. Please enter a valid grade.");
+                }
+            } else {
+                System.out.println("Invalid input. Please enter a valid number for grade.");
+            }
+        }
+    }
+
+    private static boolean isValidGrade(int grade) {
+        return grade >= 0 && grade <= 100;
+    }
+
+    private static boolean isInvalidName(String name) {
+        return name.isEmpty() || !name.matches("[a-zA-Z ]+");
+    }
+
+    private static boolean isInvalidAge(int age) {
+        return age <= 0;
+    }
+}
